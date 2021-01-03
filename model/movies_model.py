@@ -6,6 +6,7 @@ Created on Sat Jan  2 14:46:47 2021
 @author: johngillan
 """
 
+import pickle
 import numpy as np
 import pandas as pd
 from sklearn.model_selection import train_test_split
@@ -19,12 +20,12 @@ from sklearn.linear_model import Lasso
 # %%
 movies = pd.read_csv('./data/movies_clean.csv')
 
-X = movies.drop('boxoffice', axis='columns')
-y = movies.boxoffice
+X = movies.drop(['boxoffice','year','director','actors','budget','new_budget','new_box_office'], axis='columns')
+y = movies.new_box_office
 
 X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=10)
 # %%
-model = DecisionTreeRegressor(random_state=10, criterion='mse', splitter='best')
+model = LinearRegression()
 model.fit(X_train, y_train)
 
 print("Model score is: " + str(np.round(model.score(X_test, y_test), 2)))
@@ -105,8 +106,6 @@ def predict_boxoffice(duration, avg_vote, metascore, budget, director, actor, ge
 
 print(predict_boxoffice(150, 9.9, 80, 3e8, 'Clint Eastwood', 'Tom', 'Horror')/1e6)
 # %%
-import pickle
-
 with open('flop_predictor.pickle', 'wb') as f:
     pickle.dump(model, f)
     

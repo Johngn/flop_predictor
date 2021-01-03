@@ -21,7 +21,9 @@ all_movies.boxoffice = pd.to_numeric(all_movies['boxoffice'])
 
 movies = all_movies[all_movies.budget_currency == "$"]
 
-movies = movies.drop(['imdb_title_id','year','budget_currency','title','income_currency','votes','reviews_from_critics','description','country','usa_gross_income','worlwide_gross_income','reviews_from_users','language','reviews_from_users','original_title','usa_gross_income','date_published','writer','production_company','imdb_title_id'], axis='columns')
+movies = movies[movies['year'] >= 1980]
+
+movies = movies.drop(['imdb_title_id','budget_currency','title','income_currency','votes','reviews_from_critics','description','country','usa_gross_income','worlwide_gross_income','reviews_from_users','language','reviews_from_users','original_title','usa_gross_income','date_published','writer','production_company','imdb_title_id'], axis='columns')
 movies = movies.dropna()
 
 # %%
@@ -81,11 +83,76 @@ movies = movies.drop('director', 1).join(movies.director.str.join('|').str.get_d
 # %%
 # convert each value in genre column to list
 movies.genre = movies.genre.apply(lambda x: x.split(', '))
+# make list of all unique genres
+all_genres = []
+for i in movies.genre:
+    for j in i:
+        all_genres.append(j)
+genres = np.array(all_genres)
+unique_genres = np.unique(genres)
 # one-hot encoding for genres
 movies = movies.drop('genre', 1).join(movies.genre.str.join('|').str.get_dummies())
-
 # %%
 movies.to_csv('./data/movies_clean.csv', index=False)
+# %%
+
+cpi = pd.read_csv('./cpi.csv')
+
+cols = cpi.columns[cpi.columns.isin(['Year', 'Avg'])]
+cpi = cpi[cols]
+cpi = cpi[cpi['Year'] >= 1980]
+
+cpi_2020 = 260.2
+factors = [np.round(cpi_2020/item, 3) for i, item in enumerate(cpi.Avg)]
+cpi['factors'] = factors
+
+
+movie_factors = np.zeros(len(movies))
+movie_year = movies.year
+movie_budget = movies.budget
+
+for i, valuei in enumerate(movie_year):
+    for j, valuej in cpi.Year.items():
+        if valuei == valuej:
+            movie_factors[i] = cpi.factors[j]
+            
+new_budget = movies.budget*movie_factors
+movies['new_budget'] = new_budget
+new_box_office = movies.boxoffice*movie_factors
+movies['new_box_office'] = new_box_office
+# %%
+fig, ax = plt.subplots(figsize=(10,4))
+# ax.set_ylim(0, 2.5e8)
+sns.lineplot(x=movies.year, y=movies.boxoffice, data=movies, label="original box office")
+ax.set_ylabel('Box office returns')
+# %%
+genre_boxoffice = []
+genre_score = []
+for i in unique_genres:
+    genre_boxoffice.append(np.mean(movies[movies[i] == 1].new_budget))
+    genre_score.append(np.mean(movies[movies[i] == 1].avg_vote))
+
+genre_boxoffice = np.array(genre_boxoffice)
+
+data = {'genre':  unique_genres,
+        'mean': genre_score}
+
+genre_boxoffice_data = pd.DataFrame(data, columns=['genre','mean'])
+genre_score_data = pd.DataFrame(data, columns=['genre','mean'])
+
+fig, ax = plt.subplots(figsize=(14,6), nrows=1, ncols=1)
+sns.barplot(x="mean",
+            y="genre",
+            data=genre_data,
+            order=genre_data.sort_values('mean', ascending = False).genre
+            )
+plt.ylabel('')
+plt.xlabel('Mean box office')
+# %%
+
+
+
+
 
 
 
