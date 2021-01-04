@@ -20,7 +20,7 @@ from sklearn.linear_model import Lasso
 # %%
 movies = pd.read_csv('./data/movies_clean.csv')
 
-X = movies.drop(['boxoffice','year','director','actors','budget','new_budget','new_box_office'], axis='columns')
+X = movies.drop(['boxoffice','year','metascore','actors','budget','new_budget','new_box_office'], axis='columns')
 y = movies.new_box_office
 
 X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=10)
@@ -32,6 +32,20 @@ print("Model score is: " + str(np.round(model.score(X_test, y_test), 2)))
 
 predicted_boxoffice = model.predict(X)
 mean_absolute_error(y, predicted_boxoffice)
+
+def predict_boxoffice(duration, avg_vote, genre):
+    x = np.zeros(len(X.columns))    
+    
+    if genre in X.columns:
+        genre_index = np.where(X.columns == genre)[0][0]    
+        x[genre_index] = 1
+        
+    x[0] = duration
+    x[1] = avg_vote
+    
+    return model.predict([x])[0]
+
+print(predict_boxoffice(100, 5.9, 'Crime')/1e6)
 # %%
 cv = ShuffleSplit(n_splits=5, test_size=0.2, random_state=0)
 
