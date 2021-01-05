@@ -8,7 +8,7 @@ __directors = None
 __actors = None
 __genres = None
 
-def get_estimated_boxoffice(duration, avg_vote, metascore, budget, actor, director, genre):
+def get_estimated_boxoffice(duration, avg_vote, budget, actor, director, genre):
     try:
         actor_index = __data_columns.index(actor.lower())
     except:
