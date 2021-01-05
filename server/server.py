@@ -17,14 +17,15 @@ def predict_boxoffice():
     duration = float(request.form['duration'])
     avg_vote = float(request.form['avg_vote'])
     budget = float(request.form['budget'])
-    metascore = float(request.form['metascore'])
     actor = request.form['actor']
     director = request.form['director']
     genre = request.form['genre']
     
     response = jsonify({
-        'estimated_boxoffice': utils.get_estimated_boxoffice(duration,avg_vote,budget,metascore,actor,director,genre)
+        'estimated_boxoffice': utils.get_estimated_boxoffice(duration,avg_vote,budget,actor,director,genre)
         })
+    
+    response.headers.add('Access-Control-Allow-Origin', '*')
     
     return response
 
