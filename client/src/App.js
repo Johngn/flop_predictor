@@ -3,6 +3,7 @@ import store from "./store";
 import "./App.css";
 import PredictionContainer from "./components/PredictionContainer";
 import Title from "./components/Title";
+// import Intro from "./components/Intro";
 
 function App() {
     return (
