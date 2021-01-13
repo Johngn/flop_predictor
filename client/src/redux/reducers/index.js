@@ -1,6 +1,6 @@
 import { combineReducers } from "redux";
-// import homeReducer from "./homeReducer";
+import predictionReducer from "./predictions";
 
 export default combineReducers({
-    // films: homeReducer,
+    predictions: predictionReducer,
 });

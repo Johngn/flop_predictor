@@ -1,12 +1,16 @@
 from flask import Flask, request, jsonify
+from flask_cors import CORS, cross_origin
 import utils
 
 app = Flask(__name__)
+cors = CORS(app, resources={r"/*": {"origins": "*"}})
 
-@app.route('/get_directors')
-def get_directors():
+@app.route('/get_options')
+def get_options():
     response = jsonify({
-        'directors': utils.get_director_names()
+        'directors': utils.get_director_names(),
+        'actors': utils.get_actor_names(),
+        'genres': utils.get_genre_names()
         })
     response.headers.add('Access-Control-Allow-Origin', '*')
     

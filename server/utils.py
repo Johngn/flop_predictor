@@ -45,22 +45,25 @@ def load_saved_assets():
     global __genres
     global __model
     
-    with open("./model/columns.json", 'r') as f:
+    with open("../model/columns.json", 'r') as f:
         __data_columns = json.load(f)['data_columns']
         __directors = __data_columns[23:414]
         __actors = __data_columns[414:]
         __genres = __data_columns[3:23]
         
-    with open("./model/flop_predictor.pickle", 'rb') as f:
+    with open("../model/flop_predictor.pickle", 'rb') as f:
         __model = pickle.load(f)
         
     
     print('loading saved assets...done')
         
     
-# function to test server is working
 def get_director_names():
-    return __directors
+    return __directors    
+def get_actor_names():
+    return __actors    
+def get_genre_names():
+    return __genres
 
 
 if __name__ == '__main__':
