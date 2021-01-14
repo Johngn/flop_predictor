@@ -45,13 +45,13 @@ def load_saved_assets():
     global __genres
     global __model
     
-    with open("../model/columns.json", 'r') as f:
+    with open("./columns.json", 'r') as f:
         __data_columns = json.load(f)['data_columns']
         __directors = __data_columns[23:414]
         __actors = __data_columns[414:]
         __genres = __data_columns[3:23]
         
-    with open("../model/flop_predictor.pickle", 'rb') as f:
+    with open("./flop_predictor.pickle", 'rb') as f:
         __model = pickle.load(f)
         
     
@@ -68,18 +68,3 @@ def get_genre_names():
 
 if __name__ == '__main__':
     load_saved_assets()
-    
-    
-    print(get_estimated_boxoffice(180, 8.8, 1e6, 'tom cruise', 'steven Spielberg d', 'sport'))
-    print(get_estimated_boxoffice(100, 2.8, 1e8, 'meg ryan', 'steven Spielberg d', 'action'))
-    print(get_estimated_boxoffice(190, 6.8, 5e9, 'bill murray', 'david lynch d', 'sport'))
-    print(get_estimated_boxoffice(180, 8.8, 1e6, 'Ted Danson', 'woody allen d', 'Western'))
-    
-    
-    
-    
-    
-    
-    
-    
-    
