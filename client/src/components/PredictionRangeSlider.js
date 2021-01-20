@@ -3,12 +3,12 @@ import React from "react";
 export default function PredictionRangeSlider(props) {
     return (
         <div className="form-item">
-            <label className="form-slider-label">{props.name}</label>
+            <label className="form-slider-label">{props.title}</label>
             <input
                 value={props.number}
                 name={props.name}
                 type="range"
-                onChange={props.setNumber}
+                onChange={props.onChange}
                 className="predictioncontainer-form-input"
                 min={props.min}
                 max={props.max}

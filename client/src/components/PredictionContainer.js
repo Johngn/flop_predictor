@@ -7,9 +7,9 @@ import PredictionDropdown from "./PredictionDropdown";
 
 class PredictionContainer extends Component {
     state = {
-        selectedActor: "",
-        selectedDirector: "",
-        selectedGenre: "",
+        actor: "",
+        director: "",
+        genre: "",
         budget: 0,
         duration: 0,
         score: 0,
@@ -19,53 +19,17 @@ class PredictionContainer extends Component {
         this.props.getOptions();
     }
 
-    setActor = e => {
+    onChange = e => {
         console.log(e.target.value);
-        this.setState({
-            selectedActor: e.target.value,
-        });
-    };
 
-    setDirector = e => {
-        console.log(e.target.value);
-        this.setState({
-            selectedDirector: e.target.value,
-        });
-    };
-
-    setGenre = e => {
-        console.log(e.target.value);
-        this.setState({
-            selectedGenre: e.target.value,
-        });
-    };
-
-    setBudget = e => {
-        console.log(e.target.value);
-        this.setState({
-            budget: e.target.value,
-        });
-    };
-
-    setDuration = e => {
-        console.log(e.target.value);
-        this.setState({
-            duration: e.target.value,
-        });
-    };
-
-    setScore = e => {
-        console.log(e.target.value);
-        this.setState({
-            score: e.target.value,
-        });
+        this.setState({ [e.target.name]: e.target.value });
     };
 
     getPrediction = () => {
         const params = {
-            actor: this.state.selectedActor,
-            director: this.state.selectedDirector,
-            genre: this.state.selectedGenre,
+            actor: this.state.actor,
+            director: this.state.director,
+            genre: this.state.genre,
             budget: this.state.budget,
             duration: this.state.duration,
             score: this.state.score,
@@ -87,43 +51,49 @@ class PredictionContainer extends Component {
                             text1="$ "
                             text2=" million"
                             number={this.state.budget}
-                            name="Budget"
+                            title="Budget"
+                            name="budget"
                             min="0"
                             max="500"
                             step="1"
-                            setNumber={this.setBudget}
+                            onChange={this.onChange}
                         />
                         <PredictionRangeSlider
                             text2=" mins"
                             number={this.state.duration}
-                            name="Duration"
+                            title="Duration"
+                            name="duration"
                             min="0"
                             max="200"
                             step="1"
-                            setNumber={this.setDuration}
+                            onChange={this.onChange}
                         />
                         <PredictionRangeSlider
                             number={this.state.score}
-                            name="Score"
+                            title="Score"
+                            name="score"
                             min="0"
                             max="10"
                             step="0.1"
-                            setNumber={this.setScore}
+                            onChange={this.onChange}
                         />
                         <PredictionDropdown
-                            name="Actor"
-                            setOption={this.setActor}
+                            title="Actor"
+                            name="actor"
                             options={actors}
+                            onChange={this.onChange}
                         />
                         <PredictionDropdown
-                            name="Director"
-                            setOption={this.setDirector}
+                            title="Director"
+                            name="director"
                             options={directors}
+                            onChange={this.onChange}
                         />
                         <PredictionDropdown
-                            name="Genre"
-                            setOption={this.setGenre}
+                            title="Genre"
+                            name="genre"
                             options={genres}
+                            onChange={this.onChange}
                         />
                     </form>
                     <button
