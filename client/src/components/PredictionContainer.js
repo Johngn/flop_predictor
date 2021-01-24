@@ -4,6 +4,7 @@ import { getOptions, getPrediction } from "../redux/actions/predictions";
 import PropTypes from "prop-types";
 import PredictionRangeSlider from "./PredictionRangeSlider";
 import PredictionDropdown from "./PredictionDropdown";
+import Spinner from "./Spinner";
 
 class PredictionContainer extends Component {
     state = {
@@ -20,8 +21,6 @@ class PredictionContainer extends Component {
     }
 
     onChange = e => {
-        console.log(e.target.value);
-
         this.setState({ [e.target.name]: e.target.value });
     };
 
@@ -35,7 +34,6 @@ class PredictionContainer extends Component {
             score: this.state.score,
         };
 
-        console.log(params);
         this.props.getPrediction(params);
     };
 
@@ -102,10 +100,30 @@ class PredictionContainer extends Component {
                     >
                         Get Prediction
                     </button>
-                    <div className="prediction-amount">
-                        $ {parseInt(parseFloat(estimated_boxoffice) / 1e6)}{" "}
-                        million
-                    </div>
+                    {this.props.loading ? (
+                        <Spinner />
+                    ) : estimated_boxoffice ? (
+                        <div className="prediction-amount">
+                            {parseInt(parseFloat(estimated_boxoffice)) > 1e7 ? (
+                                <span>
+                                    ${" "}
+                                    {parseInt(
+                                        parseInt(
+                                            parseFloat(estimated_boxoffice) /
+                                                1e6
+                                        )
+                                    )}{" "}
+                                    million
+                                </span>
+                            ) : (
+                                <span style={{ color: "red" }}>
+                                    &darr; $ 10 million
+                                </span>
+                            )}
+                        </div>
+                    ) : (
+                        ""
+                    )}
                 </div>
             </div>
         );
@@ -117,11 +135,13 @@ PredictionContainer.propTypes = {
     getPrediction: PropTypes.func.isRequired,
     options: PropTypes.object.isRequired,
     prediction: PropTypes.object.isRequired,
+    loading: PropTypes.bool.isRequired,
 };
 
 const mapStateToProps = state => ({
     options: state.predictions.options,
     prediction: state.predictions.prediction,
+    loading: state.predictions.loading,
 });
 
 export default connect(mapStateToProps, { getOptions, getPrediction })(

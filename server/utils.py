@@ -8,8 +8,7 @@ __directors = None
 __actors = None
 __genres = None
 
-def get_estimated_boxoffice(duration, avg_vote, budget, actor, director, genre):
-        
+def get_estimated_boxoffice(duration, avg_vote, budget, actor, director, genre):        
     x = np.zeros(len(__data_columns))
 
     try:
@@ -36,9 +35,7 @@ def get_estimated_boxoffice(duration, avg_vote, budget, actor, director, genre):
     
     return round(__model.predict([x])[0], 2)
 
-def load_saved_assets():
-    print('loading saved assets...start')
-    
+def load_saved_assets():    
     global __data_columns
     global __directors
     global __actors
@@ -55,13 +52,12 @@ def load_saved_assets():
         __model = pickle.load(f)
         
     
-    print('loading saved assets...done')
-        
-    
 def get_director_names():
-    return __directors    
+    return __directors
+
 def get_actor_names():
-    return __actors    
+    return __actors
+
 def get_genre_names():
     return __genres
 

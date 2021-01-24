@@ -7,7 +7,6 @@
 
 .App {
     text-align: center;
-    /* background-color: var(--one); */
     height: 100vh;
     display: flex;
     flex-direction: column;
@@ -22,13 +21,10 @@
 }
 
 .predictioncontainer {
-    width: 1200px;
+    max-width: 1250px;
     height: 250px;
     margin: auto;
     margin-top: 200px;
-    /* background-image: url(./images/background1.jpg); */
-    /* background-size: cover; */
-    /* height: 300px; */
     background-color: rgba(255, 255, 255, 0.8);
     border: 0 solid rgba(18, 72, 107, 0.68);
     border-radius: 2px;
@@ -40,18 +36,44 @@
 }
 
 .form-item {
-    flex-direction: column;
-    padding: 10px;
+    margin: 10px;
+    /* padding: 3px; */
+}
+
+.select-item {
+    width: 190px;
 }
 
 .prediction-button {
     color: black;
+    margin-top: 20px;
     padding: 20px;
     font-size: 20px;
-    /* border-radius: 3px;; */
 }
 
 .prediction-amount {
     padding: 20px;
     font-size: 30px;
+}
+
+.spinner-container {
+    padding: 22px;
+}
+
+@media (max-width: 1250px) {
+    .predictioncontainer {
+        width: 300px;
+        height: 500px;
+        margin-top: 50px;
+    }
+
+    .predictioncontainer-form {
+        display: flex;
+        flex-direction: column;
+    }
+
+    .form-item {
+        display: flex;
+        justify-content: space-between;
+    }
 }

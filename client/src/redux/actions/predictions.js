@@ -10,8 +10,13 @@ export const setPredictionLoading = () => {
 
 export const getOptions = () => dispatch => {
     axios
-        .get("http://localhost:5000/get_options")
-        .then(res => dispatch({ type: GET_OPTIONS, payload: res.data }));
+        .get(
+            process.env.NODE_ENV === "development"
+                ? process.env.REACT_APP_API_URL_DEVELOPMENT
+                : process.env.REACT_APP_API_URL_PRODUCTION
+        )
+        .then(res => dispatch({ type: GET_OPTIONS, payload: res.data }))
+        .catch(err => console.log(err));
 };
 
 export const getPrediction = params => dispatch => {
@@ -27,30 +32,23 @@ export const getPrediction = params => dispatch => {
     formData.append("avg_vote", params.score);
 
     axios
-        .post("http://localhost:5000/predict_boxoffice", formData, {
-            headers: {
-                "Content-Type": "multipart/form-data",
-            },
-        })
-        .then(res =>
-            dispatch(
-                {
-                    type: GET_PREDICTION,
-                    payload: res.data,
+        .post(
+            `${
+                process.env.NODE_ENV === "development"
+                    ? process.env.REACT_APP_API_URL_DEVELOPMENT
+                    : process.env.REACT_APP_API_URL_PRODUCTION
+            }/predict_boxoffice`,
+            formData,
+            {
+                headers: {
+                    "Content-Type": "multipart/form-data",
                 },
-                console.log(res.data)
-            )
+            }
+        )
+        .then(res =>
+            dispatch({
+                type: GET_PREDICTION,
+                payload: res.data,
+            })
         );
 };
-
-// export const addFilm = newFilm => dispatch => {
-//     dispatch(setWatchlistLoading());
-
-//     axios.post("/api/films", newFilm).then(
-//         () =>
-//             dispatch({
-//                 type: ADD_FILM,
-//             }),
-//         dispatch(setAlert("Film added to watchlist", "success"))
-//     );
-// };
