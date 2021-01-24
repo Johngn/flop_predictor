@@ -18,14 +18,14 @@ from sklearn.model_selection import cross_val_score
 from sklearn.model_selection import GridSearchCV
 from sklearn.linear_model import Lasso
 # %%
-movies = pd.read_csv('./data/movies_clean.csv')
+movies = pd.read_csv('./data/movies_clean_new.csv')
 
 X = movies.drop(['year','new_box_office'], axis='columns')
 y = movies.new_box_office
 
 X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=10)
 # %%
-model = LinearRegression()
+model = DecisionTreeRegressor(random_state = 100)
 model.fit(X_train, y_train)
 
 print("Model score is: " + str(np.round(model.score(X_test, y_test), 2)))
@@ -54,7 +54,7 @@ def predict_boxoffice(duration, avg_vote, budget, genre, director, actor):
     
     return model.predict([x])[0]
 
-print(predict_boxoffice(80, 9.9, 1e7, 'Sport', 'James Cameron D', 'Meg Ryan')/1e6)
+print(predict_boxoffice(80, 9.9, 1e9, 'Action', 'Jas Cameron ', 'Meg Ryan')/1e6)
 # %%
 cv = ShuffleSplit(n_splits=5, test_size=0.2, random_state=0)
 
@@ -134,7 +134,7 @@ with open('./model/flop_predictor.pickle', 'wb') as f:
     
 import json
 columns = {
-    'data_columns': [col.lower() for col in X.columns]
+    'data_columns': [X.columns]
     }
 with open('./model/columns.json', 'w') as f:
     f.write(json.dumps(columns))

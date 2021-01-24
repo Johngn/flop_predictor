@@ -67,7 +67,7 @@ for i in movies.actors:
 all_actors_valuecounts = pd.DataFrame(all_actors)[0].value_counts()
 # print(np.count_nonzero(all_actors_valuecounts < 10))
 
-unpopular_actors = all_actors_valuecounts[all_actors_valuecounts < 20]
+unpopular_actors = all_actors_valuecounts[all_actors_valuecounts < 10]
 unpopular_actors_names = np.array(unpopular_actors.keys())
 # remove actors who have appeared in less than 10 films
 for x in unpopular_actors_names:
@@ -89,12 +89,12 @@ for i in movies.director:
     all_directors_lists.append(i.split(', '))
     
     for j in i.split(', '):
-        all_directors.append(j + " D")
+        all_directors.append(j + " ")   # add space to distinguish directors who also act
         
 for i in all_directors_lists:
-    i[0] = i[0] + ' D'
+    i[0] = i[0] + ' '                   # add space to distinguish directors who also act
     if len(i) > 1:
-        i[1] = i[1] + ' D'
+        i[1] = i[1] + ' '               # add space to distinguish directors who also act
         
 all_directors_valuecounts = pd.DataFrame(all_directors)[0].value_counts()
 # print(np.count_nonzero(all_directors_valuecounts < 3))
@@ -173,7 +173,7 @@ unique_genres = np.unique(genres)
 
 
 # %%
-movies.to_csv('./data/movies_clean.csv', index=False)
+movies.to_csv('./data/movies_clean_new.csv', index=False)
 
 
 
