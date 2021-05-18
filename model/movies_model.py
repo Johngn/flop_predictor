@@ -1,14 +1,8 @@
-#!/usr/bin/env python3
-# -*- coding: utf-8 -*-
-"""
-Created on Sat Jan  2 14:46:47 2021
-
-@author: johngillan
-"""
-
 import pickle
 import numpy as np
 import pandas as pd
+import matplotlib.pyplot as plt
+import seaborn as sns
 from sklearn.model_selection import train_test_split
 from sklearn.linear_model import LinearRegression
 from sklearn.tree import DecisionTreeRegressor
@@ -20,10 +14,10 @@ from sklearn.linear_model import Lasso
 # %%
 movies = pd.read_csv('./data/movies_clean_new.csv')
 
-X = movies.drop(['year','new_box_office'], axis='columns')
-y = movies.new_box_office
+X = movies.drop(['year','new_box_office','avg_vote'], axis='columns')
+y = movies.avg_vote
 
-X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=10)
+X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=1)
 # %%
 model = DecisionTreeRegressor(random_state = 100)
 model.fit(X_train, y_train)
@@ -33,7 +27,7 @@ print("Model score is: " + str(np.round(model.score(X_test, y_test), 2)))
 predicted_boxoffice = model.predict(X)
 mean_absolute_error(y, predicted_boxoffice)
 
-def predict_boxoffice(duration, avg_vote, budget, genre, director, actor):
+def predict_boxoffice(duration, budget, genre, director, actor):
     x = np.zeros(len(X.columns))
     
     if genre in X.columns:
@@ -48,13 +42,12 @@ def predict_boxoffice(duration, avg_vote, budget, genre, director, actor):
         actor_index = np.where(X.columns == actor)[0][0]    
         x[actor_index] = 1
         
-    x[0] = duration
-    x[1] = avg_vote
-    x[2] = budget
+    x[1] = duration
+    x[3] = budget
     
     return model.predict([x])[0]
 
-print(predict_boxoffice(80, 9.9, 1e9, 'Action', 'Jas Cameron ', 'Meg Ryan')/1e6)
+print(predict_boxoffice(80, 1e7, 'Action', 'James Cameron ', 'Meg Ryan'))
 # %%
 cv = ShuffleSplit(n_splits=5, test_size=0.2, random_state=0)
 

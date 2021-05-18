@@ -1,11 +1,3 @@
-#!/usr/bin/env python3
-# -*- coding: utf-8 -*-
-"""
-Created on Mon Jun 22 11:48:29 2020
-
-@author: johngillan
-"""
-
 import pandas as pd
 import numpy as np
 import matplotlib.pyplot as plt
@@ -44,11 +36,11 @@ for i, valuei in enumerate(movie_year):
             movie_factors[i] = cpi.factors[j]
             
 new_budget = movies.budget*movie_factors
-movies['new_budget'] = new_budget
+movies['budget'] = new_budget
 new_box_office = movies.boxoffice*movie_factors
-movies['new_box_office'] = new_box_office
+movies['boxoffice'] = new_box_office
 
-movies = movies.drop(['imdb_title_id','budget_currency','budget','boxoffice','metascore','title','income_currency','votes','reviews_from_critics','description','country','usa_gross_income','worlwide_gross_income','reviews_from_users','language','reviews_from_users','original_title','usa_gross_income','date_published','writer','production_company','imdb_title_id'], axis='columns')
+movies = movies.drop(['imdb_title_id','budget_currency','title','income_currency','votes','reviews_from_critics','description','country','usa_gross_income','worlwide_gross_income','reviews_from_users','language','reviews_from_users','original_title','usa_gross_income','date_published','writer','production_company','imdb_title_id'], axis='columns')
 movies = movies.dropna()
 # %%
 # convert each value in genre column to list
