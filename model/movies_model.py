@@ -11,15 +11,16 @@ from sklearn.model_selection import ShuffleSplit
 from sklearn.model_selection import cross_val_score
 from sklearn.model_selection import GridSearchCV
 from sklearn.linear_model import Lasso
-# %%
+
 movies = pd.read_csv('./data/movies_clean_new.csv')
 
-X = movies.drop(['year','new_box_office','avg_vote'], axis='columns')
-y = movies.avg_vote
+X = movies.drop(['boxoffice', 'metascore', 'year'], axis='columns')
+y = movies.boxoffice
 
 X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=1)
+
 # %%
-model = DecisionTreeRegressor(random_state = 100)
+model = DecisionTreeRegressor(random_state = 3)
 model.fit(X_train, y_train)
 
 print("Model score is: " + str(np.round(model.score(X_test, y_test), 2)))
@@ -27,27 +28,32 @@ print("Model score is: " + str(np.round(model.score(X_test, y_test), 2)))
 predicted_boxoffice = model.predict(X)
 mean_absolute_error(y, predicted_boxoffice)
 
-def predict_boxoffice(duration, budget, genre, director, actor):
+def predict_boxoffice(duration, budget, avg_vote, genre, director, actor):
     x = np.zeros(len(X.columns))
     
     if genre in X.columns:
-        genre_index = np.where(X.columns == genre)[0][0]    
+        # print('genre')
+        genre_index = np.where(X.columns == genre)[0][0]
         x[genre_index] = 1
     
     if director in X.columns:
-        director_index = np.where(X.columns == director)[0][0]    
+        print('dir')
+        director_index = np.where(X.columns == director)[0][0]
+        print(director_index)
         x[director_index] = 1
     
     if actor in X.columns:
-        actor_index = np.where(X.columns == actor)[0][0]    
+        # print('act')
+        actor_index = np.where(X.columns == actor)[0][0]
         x[actor_index] = 1
         
-    x[1] = duration
-    x[3] = budget
-    
+    x[0] = duration
+    x[2] = budget
+    x[1] = avg_vote
+    # print(x)
     return model.predict([x])[0]
 
-print(predict_boxoffice(80, 1e7, 'Action', 'James Cameron ', 'Meg Ryan'))
+print(predict_boxoffice(100, 2e8, 8, 'Horror', 'Clint Eastwood ', 'Keanu Reeves')/1e6)
 # %%
 cv = ShuffleSplit(n_splits=5, test_size=0.2, random_state=0)
 
@@ -117,7 +123,7 @@ def predict_boxoffice(duration, avg_vote, metascore, budget, director, actor, ge
     x[1] = avg_vote
     x[2] = metascore
     x[3] = budget
-    print(x)
+    # print(x)
     return model.predict([x])[0]
 
 print(predict_boxoffice(150, 9.9, 80, 3e8, 'Clint Eastwood', 'Tom', 'Horror')/1e6)
