@@ -1,79 +1,101 @@
 :root {
-    --one: #005533;
-    --two: #002a19;
-    --three: #00804c;
-    --four: #00ff98;
+  --one: #005533;
+  --two: #002a19;
+  --three: #00804c;
+  --four: #00ff98;
 }
 
 .App {
-    text-align: center;
-    height: 100vh;
-    display: flex;
-    flex-direction: column;
-    background-image: url(./images/background1.jpg);
-    background-size: cover;
+  text-align: center;
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  background-image: url(./images/background1.jpg);
+  background-size: cover;
 }
 
 .title-container {
-    padding: 20px;
-    background-color: #484848;
-    color: #f2f2f2;
+  padding: 20px;
+  /* font-size: 26px; */
+  background-color: #484848;
+  color: #f2f2f2;
+}
+
+.intro-container {
+  max-width: 600px;
+  /* height: 250px; */
+  margin: 50px auto;
+  padding: 20px;
+  background-color: rgba(255, 255, 255, 0.8);
+  border: 0 solid rgba(18, 72, 107, 0.68);
+  border-radius: 2px;
+  box-shadow: 3px 3px 12px -4px rgba(0, 0, 0, 0.84);
+}
+
+.intro-text {
+  text-align: justify;
+  font-size: 18px;
 }
 
 .predictioncontainer {
-    max-width: 1250px;
-    height: 250px;
-    margin: auto;
-    margin-top: 200px;
-    background-color: rgba(255, 255, 255, 0.8);
-    border: 0 solid rgba(18, 72, 107, 0.68);
-    border-radius: 2px;
-    box-shadow: 3px 3px 12px -4px rgba(0, 0, 0, 0.84);
+  font-size: 17px;
+  max-width: 1100px;
+  height: 250px;
+  margin: 0 auto;
+  /* margin-top: 200px; */
+  background-color: rgba(255, 255, 255, 0.8);
+  border: 0 solid rgba(18, 72, 107, 0.68);
+  border-radius: 2px;
+  box-shadow: 3px 3px 12px -4px rgba(0, 0, 0, 0.84);
 }
 
 .predictioncontainer-form {
-    display: flex;
+  display: flex;
+  font-size: 17px;
 }
 
 .form-item {
-    margin: 10px;
-    /* padding: 3px; */
+  margin: 10px;
+  width: 95%;
+  font-size: 17px;
+  /* padding: 3px; */
 }
 
 .select-item {
-    width: 190px;
+  width: 200px;
+  font-size: 17px;
 }
 
 .prediction-button {
-    color: black;
-    margin-top: 20px;
-    padding: 20px;
-    font-size: 20px;
+  color: black;
+  margin-top: 20px;
+  padding: 20px;
+  font-size: 20px;
 }
 
 .prediction-amount {
-    padding: 20px;
-    font-size: 30px;
+  padding: 20px;
+  font-size: 30px;
 }
 
 .spinner-container {
-    padding: 22px;
+  padding: 22px;
 }
 
 @media (max-width: 1250px) {
-    .predictioncontainer {
-        width: 300px;
-        height: 500px;
-        margin-top: 50px;
-    }
+  .predictioncontainer {
+    width: 350px;
+    height: 500px;
+    /* margin-top: 50px; */
+  }
 
-    .predictioncontainer-form {
-        display: flex;
-        flex-direction: column;
-    }
+  .predictioncontainer-form {
+    display: flex;
+    flex-direction: column;
+  }
 
-    .form-item {
-        display: flex;
-        justify-content: space-between;
-    }
+  .form-item {
+    display: flex;
+    justify-content: space-between;
+  }
 }
