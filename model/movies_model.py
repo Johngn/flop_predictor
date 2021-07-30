@@ -14,6 +14,7 @@ from sklearn.linear_model import Lasso
 
 movies = pd.read_csv('./data/movies_clean_new.csv')
 
+
 X = movies.drop(['boxoffice', 'metascore', 'year'], axis='columns')
 y = movies.boxoffice
 
